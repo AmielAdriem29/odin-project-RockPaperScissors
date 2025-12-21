@@ -5,8 +5,7 @@ function getComputerChoice(){
     return number;
 }
 
-function getHumanChoice(){
-    let choice = String(prompt())
+function getHumanChoice(choice){
     switch(choice){
         case "rock":
             return 1;
@@ -17,15 +16,17 @@ function getHumanChoice(){
     }
 }
 
-let humanScore = 0;
-let computerScore = 0;
 
-const humanSelection = getHumanChoice()
-const computerSelection = getComputerChoice()
+// const humanSelection = getHumanChoice(choice)
+// const computerSelection = getComputerChoice()
 
-function playRound(humanSelection = getHumanChoice(), computerSelection = getComputerChoice()){
+function playRound(humanSelection, computerSelection = getComputerChoice()){
     let p1 = humanSelection
     let p2 = computerSelection
+
+
+    let humanScore = 0; 
+    let computerScore = 0;  
 
     //Rock vs Paper
     if (p1 == 1 && p2 === 2) computerScore++;
@@ -64,17 +65,36 @@ function playRound(humanSelection = getHumanChoice(), computerSelection = getCom
     }
 
     console.log("Human: "  + humanScore  + "\n" + "Computer: " + computerScore)
-
+    return [humanScore, computerScore];
 }
 
-function playGame(){
-    for(i=1; i<=5; i++){
-        console.log("\nRound: " + i);
-        playRound()
+function playGame(choice){
+    // for(i=1; i<=5; i++){
+    //     console.log("\nRound: " + i);
+    //     playRound()
+    // }
+    [humanScore, computerScore] = playRound(getHumanChoice(choice),getComputerChoice())
+
+    const container = document.querySelector('#container');
+    const results = document.createElement('div');
+    results.classList.add("results")
+
+    if (humanScore > computerScore) {
+        results.textContent = "Human wins!"
     }
-    if (humanScore > computerScore) console.log("Human Wins!")
-    else if (humanScore < computerScore) console.log("Computer Wins!")
-    else console.log("It's a tie!")
+    else if (humanScore < computerScore){
+        results.textContent = "Computer wins!"
+    }
+    else {
+        results.textContent = "It's a tie!"
+    }
+    container.appendChild(results);
 }
 
-playGame()
+const rocks = document.getElementById('rock');
+const papers = document.getElementById('paper');
+const scissors = document.getElementById('scissors');
+
+rocks.addEventListener('click', () => playGame('rock'));
+papers.addEventListener('click', () => playGame('paper'));
+scissors.addEventListener('click', () => playGame('scissors'));
