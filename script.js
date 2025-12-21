@@ -17,6 +17,8 @@ function getHumanChoice(choice){
 }
 
 
+let humanScore = 0;
+let computerScore = 0;
 // const humanSelection = getHumanChoice(choice)
 // const computerSelection = getComputerChoice()
 
@@ -25,8 +27,6 @@ function playRound(humanSelection, computerSelection = getComputerChoice()){
     let p2 = computerSelection
 
 
-    let humanScore = 0; 
-    let computerScore = 0;  
 
     //Rock vs Paper
     if (p1 == 1 && p2 === 2) computerScore++;
@@ -40,31 +40,39 @@ function playRound(humanSelection, computerSelection = getComputerChoice()){
     if (p1 == 3 && p2 === 1) computerScore++;
     if (p2 == 3 && p1 === 1) humanScore++;
 
+    let humanChoice = '';
+    let computerChoice = '';
+
     switch(p1){
         case 1:
-            console.log("Human: rock");
+            humanChoice = "rock";
             break;
         case 2:
-            console.log("Human: paper");
+            humanChoice = "paper";
             break;
         case 3:
-            console.log("Human: scissors");
+            humanChoice = "scissors";
             break;
     }
 
     switch(p2){
         case 1:
-            console.log("Computer: rock");
+            computerChoice = "rock";
             break;
         case 2:
-            console.log("Computer: paper");
+            computerChoice = "paper";
             break;
         case 3:
-            console.log("Computer: scissors");
+            computerChoice = "scissors";
             break;
     }
 
-    console.log("Human: "  + humanScore  + "\n" + "Computer: " + computerScore)
+    const scores_container = document.querySelector('#scores-container');
+    const scores = document.createElement('div');
+    scores.classList.add("scores")
+    scores.textContent = `Human: ${humanScore} - ${humanChoice} | Computer: ${computerScore} - ${computerChoice}`;
+
+    scores_container.appendChild(scores);
     return [humanScore, computerScore];
 }
 
@@ -79,14 +87,16 @@ function playGame(choice){
     const results = document.createElement('div');
     results.classList.add("results")
 
-    if (humanScore > computerScore) {
-        results.textContent = "Human wins!"
-    }
-    else if (humanScore < computerScore){
-        results.textContent = "Computer wins!"
-    }
-    else {
-        results.textContent = "It's a tie!"
+    if (humanScore == 5 || computerScore == 5){
+        if (humanScore > computerScore) {
+            results.textContent = "Human wins!"
+        }
+        else if (humanScore < computerScore){
+            results.textContent = "Computer wins!"
+        }
+        else {
+            results.textContent = "It's a tie!"
+        }
     }
     container.appendChild(results);
 }
